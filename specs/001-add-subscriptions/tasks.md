@@ -23,11 +23,11 @@ description: "Task list for implementing add and view RSS/Atom subscriptions"
 
 **Purpose**: Establish the .NET 10 solution and project skeleton. Install the .NET 10 SDK before running these commands; the current environment has only .NET 8 and 9.
 
-- [ ] T001 Install the .NET 10 SDK and add `global.json` at the repository root to select the .NET 10 SDK.
-- [ ] T002 Create `RSSFeedReader.sln` and the ASP.NET Core Web API project at `backend/RSSFeedReader.Api/RSSFeedReader.Api.csproj`.
-- [ ] T003 Create the standalone Blazor WebAssembly project at `frontend/RSSFeedReader.UI/RSSFeedReader.UI.csproj` and add it to `RSSFeedReader.sln`.
-- [ ] T004 Create the xUnit API unit-test project at `backend/RSSFeedReader.Api.Tests/RSSFeedReader.Api.Tests.csproj`, reference the API project, and add it to `RSSFeedReader.sln`.
-- [ ] T005 Create the ASP.NET Core HTTP integration-test project at `backend/RSSFeedReader.Api.IntegrationTests/RSSFeedReader.Api.IntegrationTests.csproj`, add the `Microsoft.AspNetCore.Mvc.Testing` dependency, reference the API project, and add it to `RSSFeedReader.sln`.
+- [X] T001 Install the .NET 10 SDK and add `global.json` at the repository root to select the .NET 10 SDK.
+- [X] T002 Create `RSSFeedReader.sln` and the ASP.NET Core Web API project at `backend/RSSFeedReader.Api/RSSFeedReader.Api.csproj`.
+- [X] T003 Create the standalone Blazor WebAssembly project at `frontend/RSSFeedReader.UI/RSSFeedReader.UI.csproj` and add it to `RSSFeedReader.sln`.
+- [X] T004 Create the xUnit API unit-test project at `backend/RSSFeedReader.Api.Tests/RSSFeedReader.Api.Tests.csproj`, reference the API project, and add it to `RSSFeedReader.sln`.
+- [X] T005 Create the ASP.NET Core HTTP integration-test project at `backend/RSSFeedReader.Api.IntegrationTests/RSSFeedReader.Api.IntegrationTests.csproj`, add the `Microsoft.AspNetCore.Mvc.Testing` dependency, reference the API project, and add it to `RSSFeedReader.sln`.
 
 ---
 
@@ -35,7 +35,7 @@ description: "Task list for implementing add and view RSS/Atom subscriptions"
 
 **Purpose**: Establish local API hosting and cross-origin configuration required before the UI can use the API.
 
-- [ ] T006 Configure the API listening address and development launch profile in `backend/RSSFeedReader.Api/Properties/launchSettings.json`, and configure a development CORS policy for the actual Blazor frontend origin in `backend/RSSFeedReader.Api/Program.cs`.
+- [X] T006 Configure the API listening address and development launch profile in `backend/RSSFeedReader.Api/Properties/launchSettings.json`, and configure a development CORS policy for the actual Blazor frontend origin in `backend/RSSFeedReader.Api/Program.cs`.
 
 **Checkpoint**: The API and UI projects build and can be launched locally with a coordinated API URL, frontend origin, and CORS policy.
 
@@ -49,16 +49,16 @@ description: "Task list for implementing add and view RSS/Atom subscriptions"
 
 ### Tests for User Story 1
 
-- [ ] T007 [P] [US1] Add unit tests in `backend/RSSFeedReader.Api.Tests/SubscriptionStoreTests.cs` for an initially empty list, insertion order, preservation of repeated values, and rejection of empty or whitespace-only values without changing the list.
-- [ ] T008 [P] [US1] Add HTTP integration tests in `backend/RSSFeedReader.Api.IntegrationTests/SubscriptionsApiTests.cs` using `WebApplicationFactory` for `GET /api/subscriptions`, successful `POST` followed by `GET`, duplicate entries, and `400 Bad Request` for missing, empty, and whitespace-only values.
+- [X] T007 [P] [US1] Add unit tests in `backend/RSSFeedReader.Api.Tests/SubscriptionStoreTests.cs` for an initially empty list, insertion order, preservation of repeated values, and rejection of empty or whitespace-only values without changing the list.
+- [X] T008 [P] [US1] Add HTTP integration tests in `backend/RSSFeedReader.Api.IntegrationTests/SubscriptionsApiTests.cs` using `WebApplicationFactory` for `GET /api/subscriptions`, successful `POST` followed by `GET`, duplicate entries, and `400 Bad Request` for missing, empty, and whitespace-only values.
 
 ### Implementation for User Story 1
 
-- [ ] T009 [P] [US1] Create the subscription request and response JSON types in `backend/RSSFeedReader.Api/Models/SubscriptionRequest.cs` and `backend/RSSFeedReader.Api/Models/SubscriptionResponse.cs`, each exposing the submitted `url` value required by `contracts/subscriptions-api.md`.
-- [ ] T010 [US1] Implement `backend/RSSFeedReader.Api/Services/SubscriptionStore.cs` as a process-lifetime, concurrency-safe in-memory ordered collection; reject only empty or whitespace-only values and append duplicates unchanged.
-- [ ] T011 [US1] Implement `backend/RSSFeedReader.Api/Endpoints/SubscriptionEndpoints.cs` and map it from `backend/RSSFeedReader.Api/Program.cs` to provide `GET /api/subscriptions` returning the ordered JSON list and `POST /api/subscriptions` returning the added value or a clear `400 Bad Request`; do not make requests to submitted URLs.
-- [ ] T012 [US1] Add the configured API base URL to `frontend/RSSFeedReader.UI/wwwroot/appsettings.json`, create `frontend/RSSFeedReader.UI/Services/SubscriptionApiClient.cs` to call only the subscription list and add endpoints through dependency-injected `HttpClient`, and register the client in `frontend/RSSFeedReader.UI/Program.cs`.
-- [ ] T013 [US1] Implement the add form, subscription list, blank-input feedback, and text-only rendering in `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`; make it the sole `/` route by removing `frontend/RSSFeedReader.UI/Pages/Home.razor`, `frontend/RSSFeedReader.UI/Pages/Counter.razor`, and `frontend/RSSFeedReader.UI/Pages/Weather.razor`, and remove obsolete links from `frontend/RSSFeedReader.UI/Layout/NavMenu.razor`.
+- [X] T009 [P] [US1] Create the subscription request and response JSON types in `backend/RSSFeedReader.Api/Models/SubscriptionRequest.cs` and `backend/RSSFeedReader.Api/Models/SubscriptionResponse.cs`, each exposing the submitted `url` value required by `contracts/subscriptions-api.md`.
+- [X] T010 [US1] Implement `backend/RSSFeedReader.Api/Services/SubscriptionStore.cs` as a process-lifetime, concurrency-safe in-memory ordered collection; reject only empty or whitespace-only values and append duplicates unchanged.
+- [X] T011 [US1] Implement `backend/RSSFeedReader.Api/Endpoints/SubscriptionEndpoints.cs` and map it from `backend/RSSFeedReader.Api/Program.cs` to provide `GET /api/subscriptions` returning the ordered JSON list and `POST /api/subscriptions` returning the added value or a clear `400 Bad Request`; do not make requests to submitted URLs.
+- [X] T012 [US1] Add the configured API base URL to `frontend/RSSFeedReader.UI/wwwroot/appsettings.json`, create `frontend/RSSFeedReader.UI/Services/SubscriptionApiClient.cs` to call only the subscription list and add endpoints through dependency-injected `HttpClient`, and register the client in `frontend/RSSFeedReader.UI/Program.cs`.
+- [X] T013 [US1] Implement the add form, subscription list, blank-input feedback, and text-only rendering in `frontend/RSSFeedReader.UI/Pages/Subscriptions.razor`; make it the sole `/` route by removing `frontend/RSSFeedReader.UI/Pages/Home.razor`, `frontend/RSSFeedReader.UI/Pages/Counter.razor`, and `frontend/RSSFeedReader.UI/Pages/Weather.razor`, and remove obsolete links from `frontend/RSSFeedReader.UI/Layout/NavMenu.razor`.
 
 **Checkpoint**: User Story 1 is independently testable against the acceptance scenarios and [contracts/subscriptions-api.md](./contracts/subscriptions-api.md).
 
@@ -68,9 +68,9 @@ description: "Task list for implementing add and view RSS/Atom subscriptions"
 
 **Purpose**: Verify the complete MVP, configuration, and security/scope boundaries.
 
-- [ ] T014 Run `dotnet test backend/RSSFeedReader.Api.Tests/RSSFeedReader.Api.Tests.csproj` and `dotnet test backend/RSSFeedReader.Api.IntegrationTests/RSSFeedReader.Api.IntegrationTests.csproj`; fix failures in the corresponding test or implementation files.
-- [ ] T015 Build `backend/RSSFeedReader.Api/RSSFeedReader.Api.csproj` and `frontend/RSSFeedReader.UI/RSSFeedReader.UI.csproj`, then perform every browser scenario in `specs/001-add-subscriptions/quickstart.md` and record/fix issues in the affected project files.
-- [ ] T016 Verify exactly one page maps to `/`, user-provided values render as text, the browser makes no request to any submitted subscription URL, and no fetching, parsing, persistence, removal, or refresh behavior was introduced; check `frontend/RSSFeedReader.UI/Pages/`, `backend/RSSFeedReader.Api/`, and `frontend/RSSFeedReader.UI/`.
+- [X] T014 Run `dotnet test backend/RSSFeedReader.Api.Tests/RSSFeedReader.Api.Tests.csproj` and `dotnet test backend/RSSFeedReader.Api.IntegrationTests/RSSFeedReader.Api.IntegrationTests.csproj`; fix failures in the corresponding test or implementation files.
+- [X] T015 Build `backend/RSSFeedReader.Api/RSSFeedReader.Api.csproj` and `frontend/RSSFeedReader.UI/RSSFeedReader.UI.csproj`, then perform every browser scenario in `specs/001-add-subscriptions/quickstart.md` and record/fix issues in the affected project files.
+- [X] T016 Verify exactly one page maps to `/`, user-provided values render as text, the browser makes no request to any submitted subscription URL, and no fetching, parsing, persistence, removal, or refresh behavior was introduced; check `frontend/RSSFeedReader.UI/Pages/`, `backend/RSSFeedReader.Api/`, and `frontend/RSSFeedReader.UI/`.
 
 ## Dependencies & Execution Order
 

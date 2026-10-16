@@ -1,0 +1,104 @@
+@page "/"
+@inject SubscriptionApiClient ApiClient
+
+<PageTitle>Subscriptions | RSS Feed Reader</PageTitle>
+
+<h1>RSS/Atom subscriptions</h1>
+<p>Add a feed URL to your subscription list. Feeds are not fetched or validated.</p>
+
+<form @onsubmit="AddSubscriptionAsync" @onsubmit:preventDefault>
+    <label for="subscription-url">Feed URL</label>
+    <div class="input-group mb-3">
+        <input id="subscription-url"
+               class="form-control"
+               type="text"
+               @bind="_url"
+               aria-describedby="subscription-status" />
+        <button class="btn btn-primary" type="submit" disabled="@_isSubmitting">
+            Add subscription
+        </button>
+    </div>
+</form>
+
+@if (!string.IsNullOrEmpty(_statusMessage))
+{
+    <p id="subscription-status" role="@(_hasError ? "alert" : "status")">@_statusMessage</p>
+}
+
+<h2>Subscriptions</h2>
+@if (_isLoading)
+{
+    <p role="status">Loading subscriptions...</p>
+}
+else if (_subscriptions.Count == 0 && _hasLoaded)
+{
+    <p>No subscriptions have been added.</p>
+}
+else if (_subscriptions.Count > 0)
+{
+    <ul>
+        @foreach (var subscription in _subscriptions)
+        {
+            <li>@subscription.Url</li>
+        }
+    </ul>
+}
+
+@code {
+    private readonly List<Subscription> _subscriptions = [];
+    private string _url = string.Empty;
+    private string? _statusMessage;
+    private bool _hasError;
+    private bool _isSubmitting;
+    private bool _isLoading = true;
+    private bool _hasLoaded;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _subscriptions.AddRange(await ApiClient.GetSubscriptionsAsync());
+            _hasLoaded = true;
+        }
+        catch (HttpRequestException)
+        {
+            _hasError = true;
+            _statusMessage = "Could not connect to the subscription service.";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    private async Task AddSubscriptionAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_url))
+        {
+            _hasError = true;
+            _statusMessage = "A feed URL is required.";
+            return;
+        }
+
+        _isSubmitting = true;
+        _statusMessage = null;
+        _hasError = false;
+
+        try
+        {
+            var subscription = await ApiClient.AddSubscriptionAsync(_url);
+            _subscriptions.Add(subscription);
+            _url = string.Empty;
+            _statusMessage = "Subscription added.";
+        }
+        catch (HttpRequestException)
+        {
+            _hasError = true;
+            _statusMessage = "The subscription could not be added. Check the subscription service and try again.";
+        }
+        finally
+        {
+            _isSubmitting = false;
+        }
+    }
+}
